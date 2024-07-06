@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animation Example</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            background-color: #f0f0f0;
+            position: relative;
+            height: 100vh;
+        }
+        .header {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .text {
+            font-size: 24px;
+            transition: transform 0.5s ease;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .move-up {
+            transform: translateY(-100px);
+        }
+        .start-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            position: absolute;
+            top: 60%;
+            transform: translateY(-50%);
+        }
+        .start-button.visible {
+            opacity: 1;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">dhom916</div>
+    <div class="text">test!</div>
+    <button class="start-button hidden">ابدأ</button>
+
+    <script>
+        // تحريك النص عند اقتراب الماوس منه
+        document.addEventListener('mousemove', (event) => {
+            const textElement = document.querySelector('.text');
+            const rect = textElement.getBoundingClientRect();
+            const distance = Math.sqrt(
+                Math.pow(event.clientX - (rect.left + rect.width / 2), 2) +
+                Math.pow(event.clientY - (rect.top + rect.height / 2), 2)
+            );
+
+            if (distance < 100) { // إذا كانت المسافة أقل من 100 بكسل
+                textElement.classList.add('move-up');
+            } else {
+                textElement.classList.remove('move-up');
+            }
+        });
+
+        // إظهار زر "ابدأ" بعد 5 ثوانٍ
+        setTimeout(() => {
+            const startButton = document.querySelector('.start-button');
+            startButton.classList.remove('hidden');
+            startButton.classList.add('visible');
+        }, 5000);
+
+        // إخفاء النص وزر "ابدأ" عند النقر على زر "ابدأ"
+        document.querySelector('.start-button').addEventListener('click', () => {
+            document.querySelector('.text').classList.add('hidden');
+            document.querySelector('.start-button').classList.add('hidden');
+        });
+    </script>
+</body>
+</html>
